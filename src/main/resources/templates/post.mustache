@@ -9,6 +9,7 @@
             <a type="button" class="btn btn-primary" href="/">Back <i class="fas fa-chevron-left"></i></a>
             <br/>
             <form action="/post" method="post">
+                <input type="hidden" name="recaptchaTkn" id="recaptchaToken">
                 <div class="form-group">
                     <label for="title">Title</label>
                     <input type="text" class="form-control" id="title" name="title" aria-describedby="title" placeholder="Enter the title">
