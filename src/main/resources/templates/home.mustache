@@ -6,8 +6,35 @@
             <br/>
             <br/>
             <br/>
-            <h3>What's in your mind?</h3>
-            <button type="button" class="btn btn-primary">Create post</button>
+            <h3>What's on your mind?</h3>
+            <a type="button" class="btn btn-primary" href="/post">Create post <i class="fas fa-arrow-circle-right"></i></a>
+            <br/>
+            <br/>
+
+                <div class="form-group">
+                    <select class="form-control">
+                        {{#categories}}
+                        <option name="{{id}}">{{name}}</option>
+                        {{/categories}}
+                    </select>
+                </div>
+
+            <br/>
+            {{#posts}}
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title"><strong>{{title}}</strong></h4>
+                        <h5><strong>{{user}} - {{timeAgo}}</strong></h5>
+                        <p class="card-text">{{content}}</p>
+                        <a href="#" class="btn btn-primary">Comment</a>
+                        <p>{{categories}}</p>
+                    </div>
+                </div>
+                <br/>
+            {{/posts}}
+            {{^posts}}
+                <h1>No posts!</h1>
+            {{/posts}}
         </div>
     </div>
 </div>
