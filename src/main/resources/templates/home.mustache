@@ -10,15 +10,18 @@
             <a type="button" class="btn btn-primary" href="/post">Create post <i class="fas fa-arrow-circle-right"></i></a>
             <br/>
             <br/>
-
+            <form>
                 <div class="form-group">
-                    <select class="form-control">
+                    <select class="form-control" name="categoryId">
+                        <option value="0">-- Choose --</option>
                         {{#categories}}
-                        <option name="{{id}}">{{name}}</option>
+                        <option value="{{id}}">{{name}}</option>
                         {{/categories}}
                     </select>
+                    <br/>
+                    <button type="submit" class="btn btn-primary">Filter <i class="fas fa-filter"></i></button>
                 </div>
-
+            </form>
             <br/>
             {{#posts}}
                 <div class="card">
@@ -26,7 +29,7 @@
                         <h4 class="card-title"><strong>{{title}}</strong></h4>
                         <h5><strong>{{user}} - {{timeAgo}}</strong></h5>
                         <p class="card-text">{{content}}</p>
-                        <a href="#" class="btn btn-primary">Comment</a>
+                        <a href="#" class="btn btn-primary">Comment <i class="fas fa-comments"></i></a>
                         <p>{{categories}}</p>
                     </div>
                 </div>

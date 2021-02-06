@@ -2,6 +2,7 @@ package com.uothackk.app.forum.persistance;
 
 import com.uothackk.app.forum.Post;
 import com.uothackk.app.forum.PostService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+@Slf4j
 @Component
 public class JpaPostService implements PostService {
 
@@ -44,7 +46,6 @@ public class JpaPostService implements PostService {
         postRepository.save(postEntity);
 
         for (CategoryEntity category : categoryEntities) {
-            //CategoryEntity categoryEntity = this.categoryRepository.findById(id).get();
             PostCategoryEntity postCategoryEntity = new PostCategoryEntity();
             postCategoryEntity.setPost(postEntity);
             postCategoryEntity.setCategory(category);
@@ -54,10 +55,30 @@ public class JpaPostService implements PostService {
     }
 
     @Override
-    public Iterable<Post> posts() {
-        return StreamSupport.stream(postRepository.findAll().spliterator(), false)
-                .map(this::mapPost)
-                .collect(Collectors.toList());
+    public Iterable<Post> posts(Long categoryId) {
+
+        if (categoryId != null && categoryId > 0) {
+            log.info("here....");
+            CategoryEntity categoryEntity = this.categoryRepository.findById(categoryId).get();
+            List<PostCategoryEntity> pc = this.postCategoryRepository.findByCategory(categoryEntity);
+
+            return StreamSupport.stream(pc.spliterator(), false)
+                    .map(this::mapPostFromCategory)
+                    .collect(Collectors.toList());
+
+        } else {
+            return StreamSupport.stream(postRepository.findAll().spliterator(), false)
+                    .map(this::mapPost)
+                    .collect(Collectors.toList());
+        }
+
+    }
+
+    Post mapPostFromCategory(PostCategoryEntity postCategoryEntity) {
+        return new Post(postCategoryEntity.getPost().getId(), postCategoryEntity.getPost().getTitle(),
+                postCategoryEntity.getPost().getContent(),
+                postCategoryEntity.getPost().getDefaultUser(),
+                "", postCategoryEntity.getPost().getHelperCategories());
     }
 
     Post mapPost(PostEntity entity) {
