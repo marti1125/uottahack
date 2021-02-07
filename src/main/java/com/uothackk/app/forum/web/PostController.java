@@ -22,10 +22,10 @@ public class PostController {
     ReCaptchaV3 captchaV3;
 
     @Autowired
-    private PostService postService;
+    PostService postService;
 
     @Autowired
-    private CategoryService categoryService;
+    CategoryService categoryService;
 
     @GetMapping
     ModelAndView post() {
@@ -34,10 +34,7 @@ public class PostController {
 
     @PostMapping
     public String createNewPost(String recaptchaTkn, String title, String content, Long[] listCategories) {
-        log.info(recaptchaTkn);
-        //ReCaptchaV3 captchaV3 = new ReCaptchaV3();
         Boolean valid = captchaV3.verify(recaptchaTkn);
-
         if (!valid || title.length() == 0 || content.length() == 0 || listCategories.length == 0) {
             return "redirect:/post";
         }

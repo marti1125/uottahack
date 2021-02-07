@@ -6,4 +6,6 @@ public interface PostService {
 
     Iterable<Post> posts(Long categoryId);
 
+    Post findById(Long id);
+
 }

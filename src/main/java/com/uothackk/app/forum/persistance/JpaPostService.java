@@ -2,6 +2,7 @@ package com.uothackk.app.forum.persistance;
 
 import com.uothackk.app.forum.Post;
 import com.uothackk.app.forum.PostService;
+import com.uothackk.app.util.Util;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
@@ -58,7 +59,6 @@ public class JpaPostService implements PostService {
     public Iterable<Post> posts(Long categoryId) {
 
         if (categoryId != null && categoryId > 0) {
-            log.info("here....");
             CategoryEntity categoryEntity = this.categoryRepository.findById(categoryId).get();
             List<PostCategoryEntity> pc = this.postCategoryRepository.findByCategory(categoryEntity);
 
@@ -74,34 +74,22 @@ public class JpaPostService implements PostService {
 
     }
 
+    @Override
+    public Post findById(Long id) {
+        return mapPost(this.postRepository.findById(id).get());
+    }
+
     Post mapPostFromCategory(PostCategoryEntity postCategoryEntity) {
         return new Post(postCategoryEntity.getPost().getId(), postCategoryEntity.getPost().getTitle(),
                 postCategoryEntity.getPost().getContent(),
                 postCategoryEntity.getPost().getDefaultUser(),
-                "", postCategoryEntity.getPost().getHelperCategories());
+                Util.timeAgo(postCategoryEntity.getPost().getPlacedAt()),
+                postCategoryEntity.getPost().getHelperCategories());
     }
 
     Post mapPost(PostEntity entity) {
-
-        long today = new Date().getTime();
-        long diff = today - entity.getPlacedAt().getTime();
-
-        String timeAgo = "";
-
-        long diffMinutes = diff / (60 * 1000) % 60;
-        long diffHours = diff / (60 * 60 * 1000) % 24;
-        long diffDays = diff / (24 * 60 * 60 * 1000);
-
-        if (diffDays > 0) {
-            timeAgo = "" + diffDays + " days ago";
-        } else if (diffDays == 0 && diffHours > 0) {
-            timeAgo = "" + diffHours + " hours ago";
-        } else {
-            timeAgo = "" + diffMinutes + " minutes ago";
-        }
-
         return new Post(entity.getId(), entity.getTitle(), entity.getContent(),
-                entity.getDefaultUser(), timeAgo, entity.getHelperCategories());
+                entity.getDefaultUser(), Util.timeAgo(entity.getPlacedAt()), entity.getHelperCategories());
     }
 
 }

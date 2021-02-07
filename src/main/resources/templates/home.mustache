@@ -19,7 +19,7 @@
                         {{/categories}}
                     </select>
                     <br/>
-                    <button type="submit" class="btn btn-primary">Filter <i class="fas fa-filter"></i></button>
+                    <a type="submit" class="btn btn-primary">Filter <i class="fas fa-filter"></i></a>
                 </div>
             </form>
             <br/>
@@ -29,8 +29,8 @@
                         <h4 class="card-title"><strong>{{title}}</strong></h4>
                         <h5><strong>{{user}} - {{timeAgo}}</strong></h5>
                         <p class="card-text">{{content}}</p>
-                        <a href="#" class="btn btn-primary">Comment <i class="fas fa-comments"></i></a>
-                        <p>{{categories}}</p>
+                        <p><strong>Topics </strong> {{categories}}</p>
+                        <a href="/comment?postId={{id}}" class="btn btn-primary">Comment <i class="fas fa-comments"></i></a>
                     </div>
                 </div>
                 <br/>
