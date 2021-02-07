@@ -1,0 +1,39 @@
+html, body {
+  height: 100%;
+}
+
+#wrap {
+  min-height: 100%;
+}
+
+#main {
+  overflow:auto;
+  padding-bottom:150px; /* this needs to be bigger than footer height*/
+}
+
+.wheader {
+    font-size: 70px;
+    font-weight: bold;
+}
+
+.footer {
+  position: relative;
+  height: 250px;
+  clear:both;
+  padding-top:20px;
+}
+
+.ftitle {
+    color: white;
+    padding-bottom: 10px;
+}
+
+.item-page {
+    padding: 0;
+    list-style-type: none;
+    color: white;
+}
+
+.item-page li {
+    padding-bottom: 10px;
+}
