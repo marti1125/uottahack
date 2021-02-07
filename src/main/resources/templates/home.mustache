@@ -31,6 +31,13 @@
                         <p class="card-text">{{content}}</p>
                         <p><strong>Topics </strong> {{categories}}</p>
                         <a href="/comment?postId={{id}}" class="btn btn-primary">Comment <i class="fas fa-comments"></i></a>
+                        <br/><br/>
+                        <h5><strong>IBM Watson Tone Analyzer: </strong></h5>
+                        {{#tones}}
+                            <button type="button" class="btn btn-dark">
+                                {{toneName}} <span class="badge bg-secondary">{{score}}</span>
+                            </button>
+                        {{/tones}}
                     </div>
                 </div>
                 <br/>

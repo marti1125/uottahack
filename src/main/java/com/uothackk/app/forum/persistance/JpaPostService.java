@@ -3,11 +3,14 @@ package com.uothackk.app.forum.persistance;
 import com.uothackk.app.forum.Post;
 import com.uothackk.app.forum.PostService;
 import com.uothackk.app.util.Util;
+import com.uothackk.app.watson.WatsonTone;
+import com.uothackk.app.watson.WatsonToneAnalyzer;
+import com.uothackk.app.watson.persitance.PostDocumentToneEntity;
+import com.uothackk.app.watson.persitance.PostDocumentToneRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -19,12 +22,17 @@ public class JpaPostService implements PostService {
     private final PostRepository postRepository;
     private final CategoryRepository categoryRepository;
     private final PostCategoryRepository postCategoryRepository;
+    private final WatsonToneAnalyzer watsonToneAnalyzer;
+    private final PostDocumentToneRepository postDocumentToneRepository;
 
     public JpaPostService(PostRepository postRepository, CategoryRepository categoryRepository,
-                          PostCategoryRepository postCategoryRepository) {
+                          PostCategoryRepository postCategoryRepository, WatsonToneAnalyzer watsonToneAnalyzer,
+                          PostDocumentToneRepository postDocumentToneRepository) {
         this.postRepository = postRepository;
         this.categoryRepository = categoryRepository;
         this.postCategoryRepository = postCategoryRepository;
+        this.watsonToneAnalyzer = watsonToneAnalyzer;
+        this.postDocumentToneRepository = postDocumentToneRepository;
     }
 
     @Override
@@ -45,6 +53,8 @@ public class JpaPostService implements PostService {
         postEntity.setHelperCategories(builder.deleteCharAt(builder.length() - 1).toString());
         postEntity.setDefaultUser("Anonymous");
         postRepository.save(postEntity);
+
+        this.watsonToneAnalyzer.analyze(postEntity, content);
 
         for (CategoryEntity category : categoryEntities) {
             PostCategoryEntity postCategoryEntity = new PostCategoryEntity();
@@ -84,12 +94,26 @@ public class JpaPostService implements PostService {
                 postCategoryEntity.getPost().getContent(),
                 postCategoryEntity.getPost().getDefaultUser(),
                 Util.timeAgo(postCategoryEntity.getPost().getPlacedAt()),
-                postCategoryEntity.getPost().getHelperCategories());
+                postCategoryEntity.getPost().getHelperCategories(), tones(postCategoryEntity.getPost()));
     }
 
     Post mapPost(PostEntity entity) {
         return new Post(entity.getId(), entity.getTitle(), entity.getContent(),
-                entity.getDefaultUser(), Util.timeAgo(entity.getPlacedAt()), entity.getHelperCategories());
+                entity.getDefaultUser(), Util.timeAgo(entity.getPlacedAt()), entity.getHelperCategories(),
+                tones(entity));
+    }
+
+    List<WatsonTone> tones(PostEntity entity) {
+        List<PostDocumentToneEntity> postDocumentToneEntities = this.postDocumentToneRepository.findByPost(entity);
+
+        List<WatsonTone> tones = new ArrayList<>();
+
+        if (postDocumentToneEntities.size() > 0) {
+            for (PostDocumentToneEntity pdt : postDocumentToneEntities) {
+                tones.add(new WatsonTone(pdt.getScore(), pdt.getToneName()));
+            }
+        }
+        return tones;
     }
 
 }
