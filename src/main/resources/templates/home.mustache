@@ -7,7 +7,7 @@
             <br/>
             <br/>
             <h3>What's on your mind?</h3>
-            <a type="button" class="btn btn-primary" href="/post">Create post <i class="fas fa-arrow-circle-right"></i></a>
+            <a type="button" class="btn btn-success" href="/post">Create post <i class="fas fa-arrow-circle-right"></i></a>
             <br/>
             <br/>
             <form>
@@ -19,7 +19,7 @@
                         {{/categories}}
                     </select>
                     <br/>
-                    <a type="submit" class="btn btn-primary">Filter <i class="fas fa-filter"></i></a>
+                    <a type="submit" class="btn btn-success">Sort by topic<i class="fas fa-filter"></i></a>
                 </div>
             </form>
             <br/>
@@ -30,7 +30,7 @@
                         <h5><strong>{{user}} - {{timeAgo}}</strong></h5>
                         <p class="card-text">{{content}}</p>
                         <p><strong>Topics </strong> {{categories}}</p>
-                        <a href="/comment?postId={{id}}" class="btn btn-primary">Comment <i class="fas fa-comments"></i></a>
+                        <a href="/comment?postId={{id}}" class="btn btn-success">Comment <i class="fas fa-comments"></i></a>
                         <br/><br/>
                         <h5><strong>IBM Watson Tone Analyzer: </strong></h5>
                         {{#tones}}
