@@ -5,6 +5,7 @@ import com.uothackk.app.comment.CommentService;
 import com.uothackk.app.forum.persistance.PostEntity;
 import com.uothackk.app.forum.persistance.PostRepository;
 import com.uothackk.app.util.Util;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -24,8 +25,9 @@ public class JpaCommentService implements CommentService {
 
     @Override
     public List<Comment> byPostId(Long postId) {
+        Sort s = Sort.by(Sort.Direction.DESC, "id");
         PostEntity postEntity = this.postRepository.findById(postId).get();
-        return StreamSupport.stream(this.commentRepository.findByPost(postEntity).spliterator(), false)
+        return StreamSupport.stream(this.commentRepository.findByPost(postEntity, s).spliterator(), false)
                 .map(this::mapComment)
                 .collect(Collectors.toList());
     }

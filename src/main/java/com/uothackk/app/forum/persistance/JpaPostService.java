@@ -8,6 +8,7 @@ import com.uothackk.app.watson.WatsonToneAnalyzer;
 import com.uothackk.app.watson.persitance.PostDocumentToneEntity;
 import com.uothackk.app.watson.persitance.PostDocumentToneRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -67,17 +68,17 @@ public class JpaPostService implements PostService {
 
     @Override
     public Iterable<Post> posts(Long categoryId) {
-
+        Sort s = Sort.by(Sort.Direction.DESC, "id");
         if (categoryId != null && categoryId > 0) {
             CategoryEntity categoryEntity = this.categoryRepository.findById(categoryId).get();
-            List<PostCategoryEntity> pc = this.postCategoryRepository.findByCategory(categoryEntity);
+            List<PostCategoryEntity> pc = this.postCategoryRepository.findByCategory(categoryEntity, s);
 
             return StreamSupport.stream(pc.spliterator(), false)
                     .map(this::mapPostFromCategory)
                     .collect(Collectors.toList());
 
         } else {
-            return StreamSupport.stream(postRepository.findAll().spliterator(), false)
+            return StreamSupport.stream(postRepository.findAll(s).spliterator(), false)
                     .map(this::mapPost)
                     .collect(Collectors.toList());
         }
