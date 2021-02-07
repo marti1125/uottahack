@@ -11,6 +11,11 @@ html, body {
   padding-bottom:150px; /* this needs to be bigger than footer height*/
 }
 
+.c-warning {
+    font-size: 50px;
+    font-weight: bold;
+}
+
 .wheader {
     font-size: 70px;
     font-weight: bold;
