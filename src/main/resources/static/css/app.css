@@ -11,6 +11,16 @@ html, body {
   padding-bottom:150px; /* this needs to be bigger than footer height*/
 }
 
+.bcard {
+    background: #EDEDED;
+}
+
+.c-center-title {
+    font-size: 50px;
+    font-weight: bold;
+    text-align: center;
+}
+
 .c-warning {
     font-size: 50px;
     font-weight: bold;
