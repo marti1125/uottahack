@@ -16,7 +16,7 @@
 
                     </div>
                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-12">
-                    <div class="card">
+                    <!--div class="card">
                         <div class="card-header">Chat</div>
                         <div class="card-body height3">
                             <ul class="chat-list">
@@ -67,8 +67,8 @@
                                 </li>
                             </ul>
                         </div>
-                    </div>
-                    <form>
+                    </div-->
+                    <!--form>
                         <div class="form-row align-items-center">
                             <br/>
                             <div class="input-group">
@@ -80,7 +80,22 @@
                                 <button type="submit" class="btn btn-success">Send</button>
                             </div>
                         </div>
+                    </form-->
+                    <form>
+                        <div class="form-group">
+                            <div class="mb-1">
+                                <textarea name="chatArea" class="form-control" id="chatArea" rows="15" disabled=true></textarea>
+                            </div>
+                            <div class="input-group mb-5">
+                                <input type="text" class="form-control" id="chatInput" name="chatInput" placeholder="Enter your text here...">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" type="button" id="buttonSend">&gt;</button>
+                                </div>
+                            </div>
+                        </div>
                     </form>
+                    <div id="alerts">
+                    </div>
                 </div>
                     <div class="col">
 
@@ -91,4 +106,4 @@
     </div>
 </div>
 
-{{>footer}}
+{{>chatfooter}}

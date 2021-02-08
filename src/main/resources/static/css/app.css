@@ -11,6 +11,14 @@ html, body {
   padding-bottom:150px; /* this needs to be bigger than footer height*/
 }
 
+.btwl {
+    border-bottom: 2px solid white;
+}
+
+.white {
+    color: white;
+}
+
 .bcard {
     background: #EDEDED;
 }
